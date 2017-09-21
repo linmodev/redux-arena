@@ -32,11 +32,24 @@ class NotifierProxy extends Component {
       switchReducerKey,
       ...innerProps
     } = this.props;
+    // 这里会真正创建soloScene
+    // 传入以下props
+    // key: path,
+    // isNotifyOn,
+    // notifyData: Object.assign({}, props, notifyData),
+    // reducerKey,
+    // vReducerKey,
+    // asyncSceneBundle,
+    // sceneBundle,
+    // sceneProps,
+    // SceneLoadingComponen
     return React.createElement(wrappedComponent, innerProps);
   }
 }
 
 export default function(wrappedComponent) {
+  // 这个返回的是一个函数
+  // 这个函数用来创建soloScene
   let HOC = props => (
     <NotifierProxy wrappedComponent={wrappedComponent} {...props} />
   );

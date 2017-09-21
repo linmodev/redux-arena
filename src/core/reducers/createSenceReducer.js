@@ -19,6 +19,14 @@ function sceneReducer(state = getSceneInitState(), action, sceneReducerKey) {
   }
 }
 
+// senceReducer生成器
+// 可以传入一个扩展SenceReducer
+// 调用形式
+// let temp = {
+//   type: ARENA_SCENE_SET_STATE,
+//   _sceneReducerKey: "aaaaaaaaaaa",
+//   state: {}
+// }
 export default function createSenceReducer(
   extendSenceReducer,
   sceneReducerKey,
@@ -26,6 +34,7 @@ export default function createSenceReducer(
   arenaReducerDict
 ) {
   return function(state = initState, action) {
+    //
     if (extendSenceReducer) {
       state = extendSenceReducer(state, action, sceneReducerKey);
     }

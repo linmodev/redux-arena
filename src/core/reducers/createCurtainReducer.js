@@ -14,7 +14,13 @@ function curtainReducer(state, action, boundReducerKey) {
       return state;
   }
 }
-
+// curtainReducer生成器
+// curtainReducer调用形式
+// let temp = {
+//   type: ARENA_CURTAIN_SET_STATE,
+//   _reducerKey: "aaaaaaaaaaa",
+//   state: {}
+// }
 export default function createCurtainReducer(boundReducerKey) {
   return function(state = getCurtainInitState(), action) {
     if (boundReducerKey === action._reducerKey) {

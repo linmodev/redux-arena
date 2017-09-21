@@ -18,21 +18,26 @@ export default class SoloScene extends Component {
 
   static propTypes = {
     children: PropTypes.any,
+    // 两个自定义的reducerKey
     reducerKey: PropTypes.string,
     vReducerKey: PropTypes.string,
+    // 两个同步或异步加载的bundle
     sceneBundle: PropTypes.object,
     asyncSceneBuldle: PropTypes.object,
+    // 由bundleToComponent传入
     sceneProps: PropTypes.object,
     notifyData: PropTypes.object,
     SceneLoadingComponent: PropTypes.any
   };
 
   componentWillMount() {
+    // 生成SoloScene的curtain reducerKey
     let reducerKey = curtainAddReducer(
       this.context.store,
       this.props.reducerKey,
       createCurtainReducer
     );
+
     let {
       asyncSceneBundle,
       sceneBundle,
@@ -40,11 +45,15 @@ export default class SoloScene extends Component {
       notifyData,
       SceneLoadingComponent
     } = this.props;
+
+    // 生成相应的curtainDict且合并到arenaReducerDict
     let arenaReducerDict = calcCurtainReducerDict(
       this.context.arenaReducerDict,
       reducerKey,
       this.props.vReducerKey
     );
+
+    //
     let wrappedSceneBundle = arenaCurtainConnect(arenaReducerDict);
     let sceneBundleElement = React.createElement(wrappedSceneBundle, {
       asyncSceneBundle,

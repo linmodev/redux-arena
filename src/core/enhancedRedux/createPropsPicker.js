@@ -17,6 +17,7 @@ export default function createPropsPicker(
     if (state[curtainReducerKey].reduxInfo !== reduxInfo) {
       return latestProps;
     } else {
+      // 如果不传propsPicker则默认关注所有
       latestProps = propsPicker(
         state[sceneReducerKey],
         sceneActions,

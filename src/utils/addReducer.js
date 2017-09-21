@@ -6,6 +6,7 @@ import {
 
 function addReducer(store, reducerKey, reducerFactory) {
   let newReducerKey = reducerKey;
+  // 如果reducerKey传入了
   if (newReducerKey != null) {
     let flag = store.addReducer({
       reducerKey: newReducerKey,
@@ -15,6 +16,7 @@ function addReducer(store, reducerKey, reducerFactory) {
       throw new Error(`Reducer key [${newReducerKey}] already exsit.`);
     }
   } else {
+    // 如果没有reducerKey自动生成
     do {
       newReducerKey = String(Math.random()).slice(2);
       let flag = store.addReducer({
@@ -24,6 +26,7 @@ function addReducer(store, reducerKey, reducerFactory) {
       if (flag === false) newReducerKey = null;
     } while (newReducerKey == null);
   }
+  // 返回成功添加reducer的reducerKey
   return newReducerKey;
 }
 

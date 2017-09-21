@@ -18,7 +18,7 @@ export default class ArenaSwitch extends Component {
     store: PropTypes.any,
     arenaReducerDict: PropTypes.object
   };
-
+  // 定义arenaReducerDict在context
   static childContextTypes = {
     arenaReducerDict: PropTypes.object
   };
@@ -30,6 +30,7 @@ export default class ArenaSwitch extends Component {
   };
 
   componentWillMount() {
+    // 生成，添加reducer,生成arenaReducerDict对象
     let reducerKey = switchAddReducer(
       this.context.store,
       this.props.reducerKey,
@@ -54,13 +55,16 @@ export default class ArenaSwitch extends Component {
   componentWillReceiveProps(nextProps, nextContext) {
     let { reducerKey, vReducerKey } = nextProps;
     let curReducerKey = this.state.arenaReducerDict._curSwitch.reducerKey;
+    // 如果其中一个reducerKey改变了
     if (
       nextContext.arenaReducerDict !== this.context.arenaReducerDict ||
       reducerKey !== this.props.reducerKey ||
       vReducerKey !== this.props.vReducerKey
     ) {
       let newReducerKey = curReducerKey;
+      // 如果传入的reucerKey与当前key不一样
       if (reducerKey !== curReducerKey && reducerKey != null) {
+        // 替换掉reducer
         newReducerKey = switchRmAndAddReducer(
           nextContext.store,
           curReducerKey,
@@ -68,6 +72,7 @@ export default class ArenaSwitch extends Component {
           createSwitchReducer
         );
       }
+      // 生成新的arenaReducerDict
       this.state.arenaReducerDict = calcSwitchReducerDict(
         nextContext.arenaReducerDict,
         newReducerKey,
@@ -77,12 +82,14 @@ export default class ArenaSwitch extends Component {
   }
 
   getChildContext() {
+    // 挂载到context对象上
     return {
       arenaReducerDict: this.state.arenaReducerDict
     };
   }
 
   render() {
+    // 注：这个location并不一定存在
     return (
       <Switch location={this.props.location}>{this.props.children}</Switch>
     );

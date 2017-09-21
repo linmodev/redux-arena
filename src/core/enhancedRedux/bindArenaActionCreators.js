@@ -1,4 +1,6 @@
 function bindArenaActionCreator(actionCreator, dispatch, sceneReducerKey) {
+  // 劫持bindActionCreator，为每一个actionCreator生成的action添加sceneReducerKey
+  // 且不预算多允许自己添加_sceneReducerKey
   return (...args) => {
     let action = actionCreator(...args);
     if (action && action._sceneReducerKey) {
@@ -8,7 +10,9 @@ function bindArenaActionCreator(actionCreator, dispatch, sceneReducerKey) {
       );
     }
     typeof action === "object"
-      ? dispatch(Object.assign({}, { _sceneReducerKey: sceneReducerKey }, action))
+      ? dispatch(
+          Object.assign({}, { _sceneReducerKey: sceneReducerKey }, action)
+        )
       : dispatch(action);
   };
 }
@@ -36,7 +40,13 @@ function bindArenaActionCreator(actionCreator, dispatch, sceneReducerKey) {
  * function as `actionCreators`, the return value will also be a single
  * function.
  */
-export default function bindArenaActionCreators(actionCreators, dispatch, sceneReducerKey) {
+
+//  生成一个actionCreators对象集合
+export default function bindArenaActionCreators(
+  actionCreators,
+  dispatch,
+  sceneReducerKey
+) {
   if (typeof actionCreators === "function") {
     return bindArenaActionCreator(actionCreators, dispatch);
   }

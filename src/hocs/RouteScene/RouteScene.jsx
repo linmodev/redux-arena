@@ -13,8 +13,10 @@ class RouteScene extends Component {
   };
 
   static propTypes = {
+    // 生成reducer时用到的两个key
     reducerKey: PropTypes.string,
     vReducerKey: PropTypes.string,
+    // 异步加载用到的bundle
     asyncSceneBuldle: PropTypes.any,
     sceneBundle: PropTypes.any,
     SceneLoadingComponent: PropTypes.any,
@@ -32,13 +34,6 @@ class RouteScene extends Component {
   };
 
   componentWillMount() {
-    let { arenaReducerDict, store } = this.context;
-    let {
-      asyncSceneBundle,
-      sceneBundle,
-      SceneLoadingComponent,
-      sceneProps
-    } = this.props;
     let SceneHOC = withNotify(SoloScene);
     this.state = {
       SceneHOC
@@ -50,7 +45,7 @@ class RouteScene extends Component {
       exact,
       strict,
       path,
-      computedMatch,
+      computedMatch, // computedMatch,location是由react-router中的switch传递过来
       location,
       notifyData,
       isNotifyOn,
