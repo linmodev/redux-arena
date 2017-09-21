@@ -9,7 +9,11 @@ import {
 import { createCurtainReducer } from "../../core/reducers";
 import { curtainAddReducer, calcCurtainReducerDict } from "../../utils";
 import { arenaCurtainConnect } from "../SceneBundle";
-
+// SoloScene-每一个SoloScene都会生成一个curtain
+// SoloScene有两种调用方法
+// 1. 第一种是使用bundleToComponent生成高阶组件使用
+// 这个种方法只用传入bundle,不用传入额外的props,而且是同步加载的
+// 其中{reducerKey,vReducerKey,asyncSceneBundle
 export default class SoloScene extends Component {
   static contextTypes = {
     store: PropTypes.any,
