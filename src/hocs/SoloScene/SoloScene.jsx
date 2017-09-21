@@ -9,11 +9,12 @@ import {
 import { createCurtainReducer } from "../../core/reducers";
 import { curtainAddReducer, calcCurtainReducerDict } from "../../utils";
 import { arenaCurtainConnect } from "../SceneBundle";
-// SoloScene-每一个SoloScene都会生成一个curtain
+// SoloScene-每一个SoloScene都会生成一个curtain包含着一个SceneBundle
 // SoloScene有两种调用方法
 // 1. 第一种是使用bundleToComponent生成高阶组件使用
 // 这个种方法只用传入bundle,不用传入额外的props,而且是同步加载的
-// 其中{reducerKey,vReducerKey,asyncSceneBundle
+// 其中{reducerKey,vReducerKey,asyncSceneBundle,sceneBundle,SceneLoadingComponent}是在第二种方法时传入
+// 2. 自定义使用，各props可以自行传入
 export default class SoloScene extends Component {
   static contextTypes = {
     store: PropTypes.any,
@@ -49,16 +50,18 @@ export default class SoloScene extends Component {
       notifyData,
       SceneLoadingComponent
     } = this.props;
-
-    // 生成相应的curtainDict且合并到arenaReducerDict
+    // 把生成的reducerKey合并到当前的arenaReducerDict中
     let arenaReducerDict = calcCurtainReducerDict(
+      // 这个arenaReducerDict是从ArenaSwitch中获得
       this.context.arenaReducerDict,
       reducerKey,
       this.props.vReducerKey
     );
 
-    //
+    // 生成一个关注了{PlayingScene,curSceneBundle,reduxInfo,parentArenaReducerDict}
+    // 的SceneBundle组件
     let wrappedSceneBundle = arenaCurtainConnect(arenaReducerDict);
+    // 生成这个sceneBundleElement的实例
     let sceneBundleElement = React.createElement(wrappedSceneBundle, {
       asyncSceneBundle,
       sceneBundle,
@@ -66,10 +69,12 @@ export default class SoloScene extends Component {
       notifyData,
       SceneLoadingComponent
     });
+    // 暂时保存一些信息
     this.state = {
       arenaReducerDict,
       wrappedSceneBundle,
       sceneBundleElement,
+      // 异步初始化curtain
       sagaTaskPromise: new Promise(resolve =>
         this.context.store.dispatch({
           type: ARENA_CURTAIN_INIT_SAGA,
@@ -96,6 +101,10 @@ export default class SoloScene extends Component {
       reducerKey != null &&
       reducerKey !== this.state.arenaReducerDict._curCurtain.reducerKey
     ) {
+      // 如果传入的reducerKey改变了则
+      // 清除原来的curtain
+      // 重新添加新的curtain
+      // 重新初始化一个curtain
       refreshFlag = true;
       nextContext.store.dispatch({
         type: ARENA_CURTAIN_CLEAR_REDUX,
@@ -152,6 +161,7 @@ export default class SoloScene extends Component {
   }
 
   componentWillUnmount() {
+    // 卸载前进行清除reducer
     this.context.store.dispatch({
       type: ARENA_CURTAIN_CLEAR_REDUX,
       reducerKey: this.state.arenaReducerDict._curCurtain.reducerKey,

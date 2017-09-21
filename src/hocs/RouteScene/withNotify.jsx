@@ -46,7 +46,7 @@ class NotifierProxy extends Component {
     return React.createElement(wrappedComponent, innerProps);
   }
 }
-
+// wrppedComponent 内部一般用SoloScene
 export default function(wrappedComponent) {
   // 这个返回的是一个函数
   // 这个函数用来创建soloScene

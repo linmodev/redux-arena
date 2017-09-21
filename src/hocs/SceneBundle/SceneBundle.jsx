@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+// 私有组件
+// 内部两种调用方法
+// 1. 通过SoloScene直接调用可以传入以下Props
+// {  asyncSceneBundle,
+//       sceneBundle,
+//       sceneProps,
+//       notifyData,
+//       SceneLoadingComponent}
+// 2. 通过RouteScene调用witNotity生成一个SoloScene
+// 这时会传入isNotifyOn，默认为true
+// exact也会传入默认为true
 export default class SceneBundle extends Component {
   static propTypes = {
     asyncSceneBundle: PropTypes.any,

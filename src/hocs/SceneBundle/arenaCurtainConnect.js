@@ -4,6 +4,14 @@ import { connect } from "react-redux";
 import * as actions from "./actions";
 import SceneBundle from "./SceneBundle";
 
+/**
+ * 根据传入的dict生成一个SceneBundle组件，并取得相应
+ * reducerKey的state值
+ * 
+ * @export
+ * @param {any} arenaReducerDict 
+ * @returns 
+ */
 export default function arenaCurtainConnect(arenaReducerDict) {
   let mapDispatchToProps = dispatch => {
     return bindActionCreators(actions, dispatch);
