@@ -5,6 +5,8 @@ import { ARENA_SWITCH_SET_STATE } from "../../core/actionTypes";
 class NotifierProxy extends Component {
   componentWillMount() {
     let { store, notifyData, switchReducerKey, isNotifyOn } = this.props;
+    // 如果通知开启则更新[ArenaSwitch]的location,match
+    // isNotifyOn在通过RouteScene调用时，默认是开启的
     if (isNotifyOn) {
       store.dispatch({
         type: ARENA_SWITCH_SET_STATE,
@@ -16,6 +18,7 @@ class NotifierProxy extends Component {
 
   componentWillReceiveProps(nextProps) {
     let { store, notifyData, switchReducerKey, isNotifyOn } = nextProps;
+    // 如果通知开启则更新[ArenaSwitch]的location,match
     if (isNotifyOn) {
       store.dispatch({
         type: ARENA_SWITCH_SET_STATE,

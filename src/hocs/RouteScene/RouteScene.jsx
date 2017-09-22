@@ -34,6 +34,7 @@ class RouteScene extends Component {
   };
 
   componentWillMount() {
+    // 创建高阶组件
     let SceneHOC = withNotify(SoloScene);
     this.state = {
       SceneHOC
@@ -65,6 +66,9 @@ class RouteScene extends Component {
         path={path}
         strict={strict}
         render={props => {
+          // 当真正渲染到这个节点时，以下props会直接传给withNotify
+          // withNotify返回的hoc组件【RouteNotifier】
+          // hoc组件最终回返回SoloScene组件
           return React.createElement(this.state.SceneHOC, {
             key: path,
             isNotifyOn,
