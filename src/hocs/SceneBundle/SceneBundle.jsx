@@ -29,7 +29,7 @@ export default class SceneBundle extends Component {
   static childContextTypes = {
     arenaReducerDict: PropTypes.object
   };
-
+  // 向下传递arenaReducerDic
   getChildContext() {
     return {
       arenaReducerDict: this.props.reduxInfo.arenaReducerDict

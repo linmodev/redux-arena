@@ -32,10 +32,12 @@ function addReducer(store, reducerKey, reducerFactory) {
 
 export function switchAddReducer(store, reducerKey, reducerFactory, state) {
   let newReducerKey = addReducer(store, reducerKey, reducerFactory);
+  // 如果有state传入，则进行替换初始化state
   if (state)
     store.dispatch({
       type: ARENA_SWITCH_REPLACE_STATE,
-      _reducerKey: newReducerKey
+      _reducerKey: newReducerKey,
+      state
     });
   return newReducerKey;
 }

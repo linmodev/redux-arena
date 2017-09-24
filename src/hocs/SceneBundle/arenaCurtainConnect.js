@@ -19,6 +19,7 @@ export default function arenaCurtainConnect(arenaReducerDict) {
 
   let mapStateToProps = state => {
     let reducerKey = arenaReducerDict._curCurtain.reducerKey;
+
     return {
       PlayingScene: state[reducerKey].PlayingScene,
       curSceneBundle: state[reducerKey].curSceneBundle,
