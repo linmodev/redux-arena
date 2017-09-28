@@ -27,7 +27,7 @@ export default function arenaCurtainConnect(arenaReducerDict) {
       parentArenaReducerDict: arenaReducerDict
     };
   };
-
+  // 其实这里返回的是一个WrappedClass
   let wrappedComponent = connect(mapStateToProps, mapDispatchToProps)(
     SceneBundle
   );

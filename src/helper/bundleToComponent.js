@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import SoloScene from "../hocs/SoloScene";
 /**
- * 返回一个高阶组件
+ * 返回一个高阶组件 --返回一个Class的高阶函数
  * @param {*打包的模块} bundle 
  */
 

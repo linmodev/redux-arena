@@ -86,6 +86,8 @@ export function* sceneApplyRedux({
   options
 }) {
   let arenaStore = yield getContext("store");
+
+  // 根据isSceneReducer生成相应reducerFactory
   let reducerFactory =
     options.isSceneReducer === false
       ? bindingReducerKey =>
@@ -102,12 +104,16 @@ export function* sceneApplyRedux({
             state,
             parentArenaReducerDict
           );
+  //生成新的reducerKey
   let newReducerKey = sceneAddReducer(
     arenaStore,
     options.reducerKey,
     reducerFactory,
     state
   );
+  // 第一次加载时reduxInfo为空，所以这里传{}
+  // reduxInfo为7个值
+  // 另外3个值connectActions,arenaReducerDict,sagaTask
   let newReduxInfo = calcNewReduxInfo(
     {},
     {
@@ -147,6 +153,7 @@ export function* sceneUpdateRedux({
     if (yield cancelled()) {
     }
   }
+  // 根据isSceneReducer生成相应reducerFactory
   let reducerFactory =
     options.isSceneReducer === false
       ? bindingReducerKey =>

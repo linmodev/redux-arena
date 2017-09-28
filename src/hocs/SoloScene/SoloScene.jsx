@@ -15,6 +15,7 @@ import { arenaCurtainConnect } from "../SceneBundle";
 // 这个种方法只用传入bundle,不用传入额外的props,而且是同步加载的
 // 其中{reducerKey,vReducerKey,asyncSceneBundle,sceneBundle,SceneLoadingComponent}是在第二种方法时传入
 // 2. 自定义使用，各props可以自行传入
+// 最终会渲染sceneBundleElement
 export default class SoloScene extends Component {
   static contextTypes = {
     store: PropTypes.any,
@@ -31,8 +32,7 @@ export default class SoloScene extends Component {
     asyncSceneBuldle: PropTypes.object,
     // 由bundleToComponent传入
     sceneProps: PropTypes.object,
-    notifyData: PropTypes.object,
-    SceneLoadingComponent: PropTypes.any
+    notifyData: PropTypes.object
   };
 
   componentWillMount() {
@@ -43,13 +43,7 @@ export default class SoloScene extends Component {
       createCurtainReducer
     );
 
-    let {
-      asyncSceneBundle,
-      sceneBundle,
-      sceneProps,
-      notifyData,
-      SceneLoadingComponent
-    } = this.props;
+    let { asyncSceneBundle, sceneBundle, sceneProps, notifyData } = this.props;
     // 把生成的reducerKey合并到当前的arenaReducerDict中
     let arenaReducerDict = calcCurtainReducerDict(
       // 这个arenaReducerDict是从ArenaSwitch中获得
@@ -58,16 +52,15 @@ export default class SoloScene extends Component {
       this.props.vReducerKey
     );
 
-    // 生成一个关注了{PlayingScene,curSceneBundle,reduxInfo,parentArenaReducerDict}
-    // 的SceneBundle组件
+    // 生成一个关注了{PlayigScene,curSceneBundle,reduxInfo,parentArenaReducerDict}
+    // 的高阶组件
     let wrappedSceneBundle = arenaCurtainConnect(arenaReducerDict);
-    // 生成这个sceneBundleElement的实例
+    // 生成这个sceneBundle的实例
     let sceneBundleElement = React.createElement(wrappedSceneBundle, {
       asyncSceneBundle,
       sceneBundle,
       sceneProps,
-      notifyData,
-      SceneLoadingComponent
+      notifyData
     });
     // 暂时保存一些信息
     this.state = {
@@ -75,6 +68,7 @@ export default class SoloScene extends Component {
       wrappedSceneBundle,
       sceneBundleElement,
       // 异步初始化curtain
+      // 为了保存当前task运行信息
       sagaTaskPromise: new Promise(resolve =>
         this.context.store.dispatch({
           type: ARENA_CURTAIN_INIT_SAGA,
@@ -93,8 +87,7 @@ export default class SoloScene extends Component {
       asyncSceneBundle,
       sceneBundle,
       sceneProps,
-      notifyData,
-      SceneLoadingComponent
+      notifyData
     } = nextProps;
     let newReducerKey = this.state.arenaReducerDict._curCurtain.reducerKey;
     if (
@@ -144,7 +137,6 @@ export default class SoloScene extends Component {
       asyncSceneBundle !== this.props.asyncSceneBundle ||
       sceneBundle !== this.props.sceneBundle ||
       sceneProps !== this.props.sceneBundle ||
-      SceneLoadingComponent !== this.props.SceneLoadingComponent ||
       notifyData !== this.props.notifyData ||
       refreshFlag == true
     ) {
@@ -153,8 +145,7 @@ export default class SoloScene extends Component {
           asyncSceneBundle,
           sceneBundle,
           sceneProps,
-          notifyData,
-          SceneLoadingComponent
+          notifyData
         })
       });
     }

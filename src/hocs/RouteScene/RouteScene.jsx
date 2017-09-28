@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import invariant from "invariant";
 import SoloScene from "../SoloScene";
-import withNotify from "./withNotify";
+import syncSwitchState from "./syncSwitchState";
 
 class RouteScene extends Component {
   static contextTypes = {
-    arenaReducerDict: PropTypes.object,
-    arenaSwitchDictItem: PropTypes.object,
     store: PropTypes.any
   };
 
@@ -19,9 +17,7 @@ class RouteScene extends Component {
     // 异步加载用到的bundle
     asyncSceneBuldle: PropTypes.any,
     sceneBundle: PropTypes.any,
-    SceneLoadingComponent: PropTypes.any,
     sceneProps: PropTypes.object,
-    isNotifyOn: PropTypes.bool,
     notifyData: PropTypes.object,
     exact: PropTypes.bool,
     path: PropTypes.string,
@@ -29,13 +25,17 @@ class RouteScene extends Component {
   };
 
   static defaultProps = {
-    isNotifyOn: true,
     exact: true
   };
 
   componentWillMount() {
     // 创建高阶组件
-    let SceneHOC = withNotify(SoloScene);
+    // 此时是提前创建了一层高阶组件作为代理
+    // 而且此高阶组件只是一个无状态组件
+    // 优点：避免了不必要的渲染，优化了性级
+    let { store } = this.context;
+    let { asyncSceneBundle, sceneBundle, sceneProps } = this.props;
+    let SceneHOC = syncSwitchState(SoloScene);
     this.state = {
       SceneHOC
     };
@@ -49,15 +49,13 @@ class RouteScene extends Component {
       computedMatch, // computedMatch,location是由react-router中的switch传递过来
       location,
       notifyData,
-      isNotifyOn,
       reducerKey,
       vReducerKey,
       asyncSceneBundle,
       sceneBundle,
-      sceneProps,
-      SceneLoadingComponent
+      sceneProps
     } = this.props;
-    let { arenaReducerDict, store } = this.context;
+    let { store } = this.context;
     return (
       <Route
         location={location}
@@ -66,21 +64,19 @@ class RouteScene extends Component {
         path={path}
         strict={strict}
         render={props => {
-          // 当真正渲染到这个节点时，以下props会直接传给withNotify
-          // withNotify返回的hoc组件【RouteNotifier】
+          // 当真正渲染到这个节点时，以下props会直接传给syncSwitchState
+          // syncSwitchState返回的hoc组件【RouteNotifier】
           // hoc组件最终回返回SoloScene组件
+          // 关于notifiyData默认会合并Route组件传入的location,history,match
           return React.createElement(this.state.SceneHOC, {
             key: path,
-            isNotifyOn,
             store,
             notifyData: Object.assign({}, props, notifyData),
-            switchReducerKey: arenaReducerDict._curSwitch.reducerKey,
             reducerKey,
             vReducerKey,
             asyncSceneBundle,
             sceneBundle,
-            sceneProps,
-            SceneLoadingComponent
+            sceneProps
           });
         }}
       />

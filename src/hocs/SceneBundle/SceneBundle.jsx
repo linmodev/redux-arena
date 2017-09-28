@@ -18,8 +18,7 @@ export default class SceneBundle extends Component {
     sceneProps: PropTypes.object,
     isNotifyOn: PropTypes.bool,
     notifyData: PropTypes.object,
-    showSwitchingLoading: PropTypes.bool,
-    SceneLoadingComponent: PropTypes.any
+    showSwitchingLoading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -107,6 +106,7 @@ export default class SceneBundle extends Component {
   }
 
   loadScene(props, isInitial) {
+    // 是否加载通知
     if (props.isNotifyOn) {
       props.sceneLoadStart(
         props.parentArenaReducerDict,
@@ -116,6 +116,7 @@ export default class SceneBundle extends Component {
         isInitial
       );
     }
+    // 加载同步bundle
     if (props.sceneBundle) {
       setImmediate(() => {
         props.arenaLoadScene(
@@ -125,6 +126,7 @@ export default class SceneBundle extends Component {
           isInitial
         );
       });
+      // 加载异步bundle
     } else if (props.asyncSceneBundle) {
       setImmediate(() => {
         props.arenaLoadAsyncScene(
@@ -142,11 +144,11 @@ export default class SceneBundle extends Component {
   }
 
   render() {
-    let { PlayingScene, SceneLoadingComponent, sceneProps } = this.props;
+    let { PlayingScene, sceneProps } = this.props;
     if (this.state.isSceneBundleValid) {
       return <PlayingScene {...sceneProps} />;
     } else {
-      return SceneLoadingComponent ? <SceneLoadingComponent /> : <div />;
+      return <div />;
     }
   }
 }

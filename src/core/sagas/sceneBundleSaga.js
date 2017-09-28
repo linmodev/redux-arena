@@ -1,7 +1,7 @@
 import { ARENA_CURTAIN_SET_STATE } from "../actionTypes";
 import {
-  ARENA_SCENE_LOAD_CONTINUE,
-  ARENA_SCENE_LOAD_WAITING
+  ARENA_SCENEBUNDLE_LOAD_CONTINUE,
+  ARENA_SCENEBUNDLE_LOAD_WAITING
 } from "../../actionTypes";
 import {
   take,
@@ -18,6 +18,7 @@ import { sceneApplyRedux, sceneUpdateRedux } from "./sceneReduxSaga";
 
 /**
  * Scene of the synchronous load function, it does the following.
+ * 加载同步bundle
  * 1. load, add, replace reducer.
  * 2. Set the state of the corresponding scene.
  * 3. Run the corresponding scene of the saga, cancel the last scene of the task.
@@ -36,10 +37,11 @@ export function* applySceneBundle({
     curSceneBundle,
     reduxInfo,
     PlayingScene: OldPlayingScene,
-    isWaiting,
-    arenaReducerDict
+    isWaiting
+    // arenaReducerDict 多余
   } = yield select(state => state[arenaCurtainReducerKey]);
   let newReduxInfo;
+  // 是否是初始化
   if (isInitial) {
     newReduxInfo = yield* sceneApplyRedux({
       parentArenaReducerDict,
@@ -81,11 +83,11 @@ export function* applySceneBundle({
   };
   if (isWaiting) {
     yield put({
-      type: ARENA_SCENE_LOAD_WAITING,
+      type: ARENA_SCENEBUNDLE_LOAD_WAITING,
       ...notifyAction
     });
     while (true) {
-      let continueAction = yield take(ARENA_SCENE_LOAD_CONTINUE);
+      let continueAction = yield take(ARENA_SCENEBUNDLE_LOAD_CONTINUE);
       if (continueAction._sceneReducerKey === arenaCurtainReducerKey) {
         break;
       }

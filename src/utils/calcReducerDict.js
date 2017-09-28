@@ -17,7 +17,7 @@ function calcReducerKey(
 }
 // 生成的arenaReducerDict
 // let temp = {
-//   reducerKey: {
+//   bbbbbbb: {
 //     vReducerKey: "aaaaaaaaa",
 //     reducerKey: "bbbbbbb",
 //     "actions:": {}
