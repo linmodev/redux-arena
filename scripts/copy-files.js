@@ -1,7 +1,12 @@
 import path from "path";
 import fse from "fs-extra";
 
-const files = ["README.md", "LICENSE"];
+const files = [
+  "README.md",
+  "LICENSE",
+  "subModules/tools",
+  "subModules/actionTypes"
+];
 
 Promise.all(files.map(file => copyFile(file))).then(() => createPackageFile());
 
@@ -54,9 +59,9 @@ function createPackageFile() {
         author,
         version,
         description,
-        main: "./index.js",
-        module: "./index.es.js",
-        "jsnext:main": "./index.es.js",
+        main: "lib/index.js",
+        module: "es/index.js",
+        "jsnext:main": "es/index.js",
         keywords,
         repository,
         license,

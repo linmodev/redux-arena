@@ -61,7 +61,7 @@ function calcNewReduxInfo(reduxInfo, newReduxInfo, dispatch, isSceneActions) {
     };
     newArenaReducerDict = Object.assign(newReduxInfo.parentArenaReducerDict, {
       [newReduxInfo.reducerKey]: item,
-      _curScene: item
+      _arenaScene: item
     });
     if (newReduxInfo.vReducerKey != null)
       newArenaReducerDict[newReduxInfo.vReducerKey] = item;
@@ -153,15 +153,13 @@ export function* sceneUpdateRedux({
           createSceneReducer(
             reducer,
             bindingReducerKey,
-            state,
-            parentArenaReducerDict
+            state
           )
       : bindingReducerKey =>
           createSceneReducer(
             reducer && sceneReducerWrapper(reducer),
             bindingReducerKey,
-            state,
-            parentArenaReducerDict
+            state
           );
 
   if (

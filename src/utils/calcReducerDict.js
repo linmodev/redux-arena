@@ -12,7 +12,7 @@ function calcReducerKey(
     newDict[vReducerKey] = item;
   }
   newDict[curReducerKey] = item;
-  newDict._curScene = null;
+  newDict._arenaScene = null;
   return newDict;
 }
 
@@ -25,19 +25,6 @@ export function calcCurtainReducerDict(
     arenaReducerDict,
     curtainReducerKey,
     vReducerKey,
-    "_curCurtain"
-  );
-}
-
-export function calcSwitchReducerDict(
-  arenaReducerDict,
-  switchReducerKey,
-  vReducerKey
-) {
-  return calcReducerKey(
-    arenaReducerDict,
-    switchReducerKey,
-    vReducerKey,
-    "_curSwitch"
+    "_arenaCurtain"
   );
 }

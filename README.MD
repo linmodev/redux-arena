@@ -38,7 +38,7 @@ Online example can be found here: [Here](https://hapood.github.io/redux-arena/)
 1. Export react component, actions, reducer, saga as React component.
 
 ```javascript
-import { bundleToComponent } from "redux-arena/helper";
+import { bundleToComponent } from "redux-arena/tools";
 import state from "./state";
 import * as actions from "./actions";
 import PageA from "./PageA";
@@ -75,12 +75,12 @@ ReactDOM.render(
 
 Redux-arena provide a set of useful HOCs to enhance react-router.
 
-### SoloScene
+### ArenaScene
 
-If route is not necessary, use SoloScene.
+If route is not necessary, use ArenaScene.
 
 ```javascript
-<SoloScene asyncSceneBundle={asyncPageB} />
+<ArenaScene asyncSceneBundle={asyncPageB} />
 ```
 
 ### ArenaSwitch

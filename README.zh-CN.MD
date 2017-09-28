@@ -39,7 +39,7 @@ npm install redux-arena --save
 1. 将react组件、actions、reducer、saga 文件导出成React组件
 
 ```javascript
-import { bundleToComponent } from "redux-arena/helper";
+import { bundleToComponent } from "redux-arena/tools";
 import state from "./state";
 import * as actions from "./actions";
 import PageA from "./PageA";
@@ -75,13 +75,13 @@ ReactDOM.render(
 
 Redux-arena提供了一组可以和react-router整合使用的高阶组件。
 
-### SoloScene
+### ArenaScene
 
 如果你不需要路由功能，直接使用SoloScene。
 
 
 ```javascript
-<SoloScene asyncSceneBundle={asyncPageB} />
+<ArenaScene asyncSceneBundle={asyncPageB} />
 ```
 
 ### ArenaSwitch

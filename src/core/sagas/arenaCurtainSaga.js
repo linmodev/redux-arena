@@ -25,7 +25,7 @@ function* takeEverySceneBundleAction() {
       ARENA_CURTAIN_LOAD_ASYNCSCENE,
       ARENA_CURTAIN_LOAD_SCENE
     ]);
-    if (action.parentArenaReducerDict._curCurtain.reducerKey === _reducerKey) {
+    if (action.parentArenaReducerDict._arenaCurtain.reducerKey === _reducerKey) {
       if (lastTask && lastTask.isRunning()) {
         yield cancel(lastTask);
       }
@@ -61,13 +61,6 @@ function* initArenaCurtainSaga({
   setSagaTask,
   isWaitingSwitchAction = false
 }) {
-  yield put({
-    type: ARENA_CURTAIN_SET_STATE,
-    _reducerKey: reducerKey,
-    state: {
-      isWaiting: isWaitingSwitchAction
-    }
-  });
   let sagaTask = yield fork(forkSagaWithContext, {
     _reducerKey: reducerKey
   });
