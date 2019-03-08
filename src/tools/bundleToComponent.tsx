@@ -1,25 +1,25 @@
 import * as React from "react";
 import { ActionCreatorsMapObject } from "redux";
 import { DefaultSceneActions } from "../core/types";
-import { ArenaSceneExtraProps, ArenaScene } from "../hocs";
+import { ArenaScene, ArenaSceneExtraProps } from "../hocs";
 import {
-  Omit,
-  ActionsProps,
-  SceneBundleNo,
-  SceneBundleNoS,
-  SceneBundleNoA,
-  SceneBundleNoPP,
-  SceneBundleNoAPP,
-  SceneBundleNoSA,
-  SceneBundleNoSPP,
-  SceneBundleNoSAPP
-} from "./types";
-import {
-  defaultPropsPicker,
   defaultActions,
+  defaultPropsPicker,
   defaultReducerCreator
 } from "./autoFill";
-
+import {
+  ActionsProps,
+  Omit,
+  SceneBundleNo,
+  SceneBundleNoA,
+  SceneBundleNoAPP,
+  SceneBundleNoPP,
+  SceneBundleNoS,
+  SceneBundleNoSA,
+  SceneBundleNoSAPP,
+  SceneBundleNoSPP
+} from "./types";
+const ReactReduxContext = require("react-redux").ReactReduxContext;
 function bundleToComponent<
   P extends PP,
   S,
@@ -48,14 +48,15 @@ function bundleToComponent<
 function bundleToComponent<P extends PP, PP>(
   bundle: SceneBundleNoSA<P, PP>,
   extraProps?: ArenaSceneExtraProps
-): React.SFC<Omit<P, keyof (PP)>>;
+): React.SFC<Omit<P, keyof PP>>;
 function bundleToComponent<
   P extends ActionsProps<A>,
   A extends ActionCreatorsMapObject
 >(
   bundle: SceneBundleNoSPP<P, A>,
   extraProps?: ArenaSceneExtraProps
-): React.SFC<Omit<P, keyof (ActionsProps<A>)>>;
+): React.SFC<Omit<P, keyof ActionsProps<A>>>;
+
 function bundleToComponent<
   P extends S & ActionsProps<DefaultSceneActions<S>>,
   S

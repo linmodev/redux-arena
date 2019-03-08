@@ -16,7 +16,7 @@
     "noImplicitUseStrict": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "lib": ["es6", "dom"],
+    "lib": ["es6", "dom", "es2017.object"],
     "jsx": "react"
   },
   "exclude": ["node_modules", "example"]

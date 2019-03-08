@@ -7,7 +7,7 @@ import {
 import { RootState } from "../reducers/types";
 function bindArenaActionCreator(
   actionCreator: ActionCreator<AnyAction>,
-  dispatch: Dispatch<RootState>,
+  dispatch: Dispatch<AnyAction>,
   sceneReducerKey: string
 ) {
   return (...args: any[]) => {
@@ -15,9 +15,9 @@ function bindArenaActionCreator(
     if (action && action._sceneReducerKey) {
       console.warn(
         '"Action with redux-arena should not contain an user specified "_sceneReducerKey" property.\n' +
-          `Occurred in type: ${action.type}, _sceneReducerKey: ${
-            sceneReducerKey
-          }.`
+          `Occurred in type: ${
+            action.type
+          }, _sceneReducerKey: ${sceneReducerKey}.`
       );
     }
     typeof action === "object"
@@ -32,7 +32,7 @@ export default function bindArenaActionCreators<
   M extends ActionCreatorsMapObject
 >(
   actionCreators: ActionCreatorsMapObject,
-  dispatch: Dispatch<RootState>,
+  dispatch: Dispatch<AnyAction>,
   sceneReducerKey: string
 ): M {
   if (

@@ -78,7 +78,9 @@ function* killArenaCurtainSaga({
   reducerKey
 }: KillArenaCurtainAction) {
   let sagaTask = yield sagaTaskPromise;
-  if (sagaTask) yield cancel(sagaTask);
+  if (sagaTask) {
+    yield cancel(sagaTask);
+  }
   let store = yield getContext("store");
   yield put({
     type: ActionTypes.ARENA_STATETREE_NODE_DISABLE,
@@ -87,6 +89,7 @@ function* killArenaCurtainSaga({
   let { reduxInfo } = (yield select(
     (state: any) => state[reducerKey]
   )) as CurtainState<{}>;
+
   if (reduxInfo && reduxInfo.reducerKey != null) {
     yield put({
       type: ActionTypes.ARENA_STATETREE_NODE_DELETE,

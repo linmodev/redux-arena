@@ -1,9 +1,9 @@
 // Karma configuration
 // Generated on Sat Jul 29 2017 16:06:43 GMT+0800 (中国标准时间)
-let webpack = require("webpack");
-let path = require("path");
 
-module.exports = function(config) {
+import * as path from "path";
+
+module.exports = function(config: any) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "",
@@ -13,14 +13,14 @@ module.exports = function(config) {
     frameworks: ["mocha", "chai", "sinon"],
 
     // list of files / patterns to load in the browser
-    files: ["test.webpack.js"],
+    files: ["test.webpack.ts"],
 
     // list of files to exclude
     exclude: [],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: { "test.webpack.js": ["webpack", "sourcemap"] },
+    preprocessors: { "test.webpack.ts": ["webpack", "sourcemap"] },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

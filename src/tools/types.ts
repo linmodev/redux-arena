@@ -10,12 +10,20 @@ import {
 
 export type Diff<T extends string, U extends string> = ({ [P in T]: P } &
   { [P in U]: never } & { [x: string]: never })[T];
-export type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>;
+// FIXME:change omit type implement
+// https://github.com/Microsoft/TypeScript/issues/24560
+// export type Omit<T, K extends Extract<keyof T, string>> = Pick<
+//  T,P
+//   Diff<Extrac t<keyof T, string>, K>
+// >;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type DefaultPickedProps<S, A extends ActionCreatorsMapObject> = {
   actions: A;
 } & S;
+type T03<K extends "actions"> = K;
 
+let v2: T03<"actions"> = "actions";
 export type DefaultState = {};
 
 export type ActionsProps<A> = { actions: A };
@@ -62,7 +70,12 @@ export type SceneBundleNoSPP<P, A extends ActionCreatorsMapObject> = {
 } & SceneBundleBase<P & { actions: A }, DefaultState>;
 
 export type SceneBundleNoSA<P extends PP, PP> = {
-  propsPicker: PropsPicker<P, DefaultState, DefaultSceneActions<DefaultState>, PP>;
+  propsPicker: PropsPicker<
+    P,
+    DefaultState,
+    DefaultSceneActions<DefaultState>,
+    PP
+  >;
 } & SceneBundleBase<P, DefaultState>;
 
 export type SceneBundleNoAPP<P, S> = {

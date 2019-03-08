@@ -19,7 +19,8 @@ import {
   defaultActions,
   defaultReducerCreator
 } from "./autoFill";
-
+import { Context } from "../hocs/ArenaScene";
+const ReactReduxContext = require("react-redux").ReactReduxContext;
 function bundleToElement<
   P extends PP,
   S,

@@ -9,10 +9,11 @@ export type ExtraProps = {
 export type Props = ExtraProps & {
   sceneProps?: {};
   sceneBundle: SceneBundle<{}, {}, {}, {}>;
+  // context: Context;
 };
 
 export type State = {
-  parentReducerKey: string;
+  parentReducerKey: string | undefined | null;
   arenaReducerDict: ReducerDict;
   ConnectedBundleComponent: ComponentClass<BCProps>;
   connectedBundleElement: ComponentElement<BCProps, any>;
@@ -20,5 +21,6 @@ export type State = {
 
 export type Context = {
   store: EnhancedStore<any>;
+  storeState: any;
   arenaReducerDict: ReducerDict | null | undefined;
 };

@@ -19,21 +19,25 @@ function getLevelKey(
   if (levelNum === 0) return reducerKey;
   let { stateTree, stateTreeDict } = rootState.arena;
   let path = stateTreeDict.getIn([reducerKey, "path"]);
+
   return path.get(path.count() - 1 - 2 * levelNum);
 }
 
 export default function createPropsPicker<
   S,
   A extends ActionCreatorsMapObject,
-  P
+  PP,
+  P extends PP
 >(
-  propsPicker: PropsPicker<P, S, A, Partial<P>>,
+  propsPicker: PropsPicker<P, S, A, PP>,
   reduxInfo: CurtainReduxInfo<S>,
   mutableObj: CurtainMutableObj
 ) {
   let { arenaReducerDict } = reduxInfo;
   let sceneReducerKey = arenaReducerDict._arenaScene.reducerKey;
-  let latestProps: Partial<P>;
+  // let latestProps: Partial<P>;
+
+  let latestProps: PP;
   let stateHandler = {
     get: function(target: { state: any }, name: string) {
       let levelNum = getRelativeLevel(name);

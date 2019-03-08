@@ -3,7 +3,7 @@ import ActionTypes from "../core/ActionTypes";
 
 export default function addStateTreeNode(
   store: EnhancedStore<any>,
-  pReducerKey: string,
+  pReducerKey: string | undefined | null,
   reducerKey: string
 ) {
   store.dispatch({

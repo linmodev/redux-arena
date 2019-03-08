@@ -1,32 +1,21 @@
-import ActionTypes from "../ActionTypes";
-import {
-  put,
-  PutEffect,
-  fork,
-  ForkEffect,
-  select,
-  SelectEffect,
-  getContext,
-  setContext,
-  CallEffectFactory,
-  GetContextEffect
-} from "redux-saga/effects";
-import { bindActionCreators, ActionCreatorsMapObject, Dispatch } from "redux";
-import { bindArenaActionCreators } from "../enhancedRedux";
-import { createSceneReducer, sceneReducerWrapper } from "../reducers";
+import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from "redux";
+import { fork, getContext, put, select, setContext } from "redux-saga/effects";
 import {
   addStateTreeNode,
+  buildSceneReducerDict,
   sceneAddReducer,
-  sceneReplaceReducer,
-  buildSceneReducerDict
+  sceneReplaceReducer
 } from "../../utils";
+import ActionTypes from "../ActionTypes";
+import { bindArenaActionCreators } from "../enhancedRedux";
+import { createSceneReducer, sceneReducerWrapper } from "../reducers";
+import { CurtainReduxInfo } from "../reducers/types";
 import {
   ReducerDict,
-  SceneReducer,
+  SceneBundle,
   SceneBundleOptions,
-  SceneBundle
+  SceneReducer
 } from "../types";
-import { CurtainReduxInfo } from "../reducers/types";
 
 function bindActions(
   actions: ActionCreatorsMapObject,
@@ -105,6 +94,7 @@ export function* sceneApplyRedux<P, S, A extends ActionCreatorsMapObject, PP>({
     reducerFactory,
     state
   );
+
   let bindedActions = bindActions(
     actions,
     newReducerKey,
@@ -126,6 +116,7 @@ export function* sceneApplyRedux<P, S, A extends ActionCreatorsMapObject, PP>({
     bindedActions,
     arenaReducerDict: newArenaReducerDict
   };
+
   addStateTreeNode(
     arenaStore,
     getParentReducerKey(newReduxInfo.arenaReducerDict),

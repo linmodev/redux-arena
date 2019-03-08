@@ -1,4 +1,4 @@
-import { SFC } from "react";
+import { SFC, ComponentClass } from "react";
 import { ActionCreatorsMapObject } from "redux";
 import { SceneBundle, ReducerDict, SceneBundleOptions } from "../../types";
 
@@ -23,7 +23,7 @@ export type CurtainState<
   A extends ActionCreatorsMapObject = {},
   PP = {}
 > = {
-  PlayingScene: SFC<P> | null | undefined;
+  PlayingScene: SFC<P>;
   curSceneBundle: SceneBundle<P, S, A, PP> | null | undefined;
   reduxInfo: CurtainReduxInfo<S> | null | undefined;
   mutableObj: CurtainMutableObj;

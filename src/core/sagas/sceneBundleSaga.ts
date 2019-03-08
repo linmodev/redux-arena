@@ -1,20 +1,11 @@
-import {
-  call,
-  put,
-  select,
-  getContext,
-  GetContextEffect,
-  CallEffect,
-  PutEffect,
-  SelectEffect
-} from "redux-saga/effects";
-import { ActionCreatorsMapObject } from "redux";
 import { connect } from "react-redux";
-import { createPropsPicker } from "../enhancedRedux";
-import { sceneApplyRedux, sceneUpdateRedux } from "./sceneReduxSaga";
+import { ActionCreatorsMapObject } from "redux";
+import { getContext, put, select } from "redux-saga/effects";
 import ActionTypes from "../ActionTypes";
-import { CurtainState, CurtainReduxInfo } from "../reducers/types";
-import { SceneBundle, CurtainLoadSceneAction } from "../types";
+import { createPropsPicker } from "../enhancedRedux";
+import { CurtainReduxInfo, CurtainState } from "../reducers/types";
+import { CurtainLoadSceneAction, SceneBundle } from "../types";
+import { sceneApplyRedux, sceneUpdateRedux } from "./sceneReduxSaga";
 
 export function* applySceneBundle<
   P extends PP,
@@ -62,20 +53,13 @@ export function* applySceneBundle<
     });
   }
   let newMutableObj = { isObsolete: false };
-  yield put({
-    type: ActionTypes.ARENA_CURTAIN_SET_STATE,
-    _reducerKey: arenaCurtainReducerKey,
-    state: {
-      reduxInfo: newReduxInfo,
-      mutableObj: newMutableObj
-    }
-  });
   let propsPicker = createPropsPicker(
     sceneBundle.propsPicker,
     newReduxInfo,
     newMutableObj
   );
-  let PlayingScene = connect(propsPicker)(sceneBundle.Component);
+  let PlayingScene = connect(propsPicker)(sceneBundle.Component as any);
+
   let displayName =
     sceneBundle.Component.displayName ||
     sceneBundle.Component.name ||
@@ -85,7 +69,9 @@ export function* applySceneBundle<
   },Component:${displayName}})`;
   let newArenaState = {
     PlayingScene,
-    curSceneBundle: sceneBundle
+    curSceneBundle: sceneBundle,
+    reduxInfo: newReduxInfo,
+    mutableObj: newMutableObj
   };
   yield put({
     type: ActionTypes.ARENA_CURTAIN_SET_STATE,

@@ -2,23 +2,14 @@ import * as React from "react";
 import * as PropTypes from "prop-types";
 import { ReducerDict, SceneBundle } from "../../core";
 import { ConnectedProps, State } from "./types";
-
+import { isEmpty } from "../../utils/isEmpty";
+import { Context as ArenaContext } from "../ArenaScene/types";
+const ReactReduxContext = require("react-redux").ReactReduxContext;
 export default class BundleComponent extends React.Component<
   ConnectedProps,
   State
 > {
-  static childContextTypes = {
-    arenaReducerDict: PropTypes.object
-  };
-
   _isValid = false;
-
-  getChildContext() {
-    return {
-      arenaReducerDict:
-        this.props.reduxInfo && this.props.reduxInfo.arenaReducerDict
-    };
-  }
 
   buildLoadScenePromise(
     arenaReducerDict: ReducerDict,
@@ -47,8 +38,21 @@ export default class BundleComponent extends React.Component<
       );
     }
   }
+  static contextType = ReactReduxContext;
+  context: ArenaContext;
+  shouldComponentUpdate(nextProps: ConnectedProps) {
+    console.log("should componet ");
 
+    const objKeys = Object.keys(this.props);
+    let hasChangeed = false;
+    hasChangeed = !objKeys.every((key: keyof ConnectedProps) => {
+      if (isEmpty(nextProps[key]) && isEmpty(this.props[key])) return true;
+      return nextProps[key] === this.props[key];
+    });
+    return hasChangeed;
+  }
   componentWillMount() {
+    // console.log("will mount ", this.props.context);
     this._isValid = true;
     let loadedPromise = this.buildLoadScenePromise(
       this.props.arenaReducerDict,
@@ -80,6 +84,7 @@ export default class BundleComponent extends React.Component<
 
   componentWillUnmount() {
     this._isValid = false;
+    console.log(this.props);
     this.props.clearCurtain();
     this.props.mutableObj.isObsolete = true;
   }
@@ -87,7 +92,17 @@ export default class BundleComponent extends React.Component<
   render() {
     let { PlayingScene, sceneProps } = this.props;
     if (PlayingScene != null) {
-      return <PlayingScene {...sceneProps} />;
+      const newContext = {
+        arenaReducerDict:
+          this.props.reduxInfo && this.props.reduxInfo.arenaReducerDict,
+        storeState: this.context.storeState,
+        store: this.context.store
+      };
+      return (
+        <ReactReduxContext.Provider value={newContext}>
+          <PlayingScene {...sceneProps} />
+        </ReactReduxContext.Provider>
+      );
     } else {
       return <div />;
     }

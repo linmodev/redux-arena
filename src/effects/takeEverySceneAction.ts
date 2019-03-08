@@ -11,7 +11,7 @@ function* _takeEverySceneAction(
     let action = yield take(pattern);
     let entry = yield getArenaReducerDictEntry(key);
     if (action._sceneReducerKey === entry.reducerKey) {
-      yield fork(saga, ...args, action);
+      yield fork(saga, [...args, action]);
     }
   }
 }

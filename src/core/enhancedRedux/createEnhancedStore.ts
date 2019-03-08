@@ -2,18 +2,18 @@
  * Create redux-arena proxy store
  */
 import {
-  createStore,
-  combineReducers,
-  Store,
-  ReducersMapObject,
-  GenericStoreEnhancer,
   Dispatch,
-  Unsubscribe
+  ReducersMapObject,
+  Store,
+  StoreEnhancer,
+  Unsubscribe,
+  combineReducers,
+  createStore
 } from "redux";
-import { ForkEffect } from "redux-saga/effects";
+
+import { composeWithDevTools } from "redux-devtools-extension";
 import { ArenaState } from "../reducers/types";
 import { SceneReducer } from "../types";
-
 type ArenaStoreState = {
   arena: ArenaState;
 };
@@ -62,6 +62,7 @@ function storeEnhancer<S extends ArenaStoreState>(
           _currentReducers = newReducers;
           delete allStates[reducerKey];
           target.replaceReducer(combineReducers(newReducers));
+
           return true;
         };
       }
@@ -88,8 +89,12 @@ function storeEnhancer<S extends ArenaStoreState>(
 export default function createEnhancedStore(
   reducers: ReducersMapObject,
   initialState: any,
-  enhencer: GenericStoreEnhancer
+  enhencer: StoreEnhancer
 ) {
-  let store = createStore(combineReducers(reducers), initialState, enhencer);
+  let store = createStore(
+    combineReducers(reducers),
+    initialState,
+    composeWithDevTools(enhencer)
+  );
   return storeEnhancer(store, reducers);
 }

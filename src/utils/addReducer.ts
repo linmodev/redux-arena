@@ -1,5 +1,5 @@
+import { EnhancedStore, ReducerFactory } from "../core";
 import ActionTypes from "../core/ActionTypes";
-import { EnhancedStore, SceneReducer, ReducerFactory } from "../core";
 
 function addReducer(
   store: EnhancedStore<any>,

@@ -3,9 +3,9 @@ import getArenaReducerDictEntry from "./getArenaReducerDictEntry";
 
 function* _takeLatestSceneAction(
   pattern: Pattern,
-  saga: () => void,
+  saga: (...params: any[]) => void,
   key: string,
-  args: any
+  args: any[]
 ) {
   let lastTask;
   while (true) {
@@ -13,7 +13,7 @@ function* _takeLatestSceneAction(
     let entry = yield getArenaReducerDictEntry(key);
     if (action._sceneReducerKey === entry.reducerKey) {
       if (lastTask) yield cancel(lastTask);
-      lastTask = yield fork(saga, ...args, action);
+      lastTask = yield fork(saga, [...args, action]);
     }
   }
 }
