@@ -13,7 +13,7 @@ export default class Child extends React.Component<Props> {
           width: "20rem"
         }}
       >
-        <span style={{ lineHeight: "1.5rem" }}>
+        <span style={{ lineHeight: "1.5rem", color: "green" }}>
           Map parent's state to props parentState by vReducerKey{" "}
           <span style={{ color: "orange" }}>"parent"</span>.
         </span>
@@ -47,7 +47,7 @@ export default class Child extends React.Component<Props> {
           }}
         >
           <span style={{ lineHeight: "1.5rem" }}>
-            Map parent's actions to props parentActions by vReducerKey{" "}
+            Map parent's actions to props parentActions by vReducerKey
             <span style={{ color: "orange" }}>"parent"</span>.
           </span>
           <div style={{ marginTop: "1rem" }}>

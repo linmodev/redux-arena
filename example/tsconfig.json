@@ -4,9 +4,15 @@
     "target": "es5",
     "sourceMap": true,
     "module": "esnext",
+    "allowJs": true,
     "moduleResolution": "node",
-    "lib": ["es6", "dom"],
-    "jsx": "react"
+    "lib": ["es6", "dom", "es2017.object"],
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "redux-arena/*": ["node_modules/redux-arena/src/*"],
+      "*": ["node_modules/*"]
+    }
   },
-  "exclude": ["node_modules", "example"]
+  "exclude": ["node_modules"]
 }

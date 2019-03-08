@@ -1,4 +1,4 @@
-import { bundleToComponent } from "redux-arena/tools";
+import { bundleToComponent } from "redux-arena";
 import state from "./state";
 import reducer from "./reducer";
 import actions from "./actions";

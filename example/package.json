@@ -1,10 +1,10 @@
-﻿{
+{
   "name": "redux-arena-example",
   "version": "0.0.0",
   "description": "Example for redux-arena",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "ts-node server.ts",
     "build": "npm run clean:build &&webpack --colors --config webpack.config.prod.js",
     "clean:build": "rimraf build",
     "start:build": "node expressServer.js"
@@ -21,20 +21,23 @@
   "dependencies": {
     "@types/react": "^16.0.22",
     "@types/react-dom": "^16.0.3",
-    "react": "^16.1.1",
+    "react": "16.7.0",
     "react-dom": "^16.1.1",
-    "redux-arena": "^0.9.0-rc-2",
+    "react-redux": "6.0.0",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "@types/react-redux": "^6.0.12",
     "express": "^4.16.2",
     "html-webpack-plugin": "^2.30.1",
     "react-hot-loader": "^3.1.2",
     "script-ext-html-webpack-plugin": "^1.8.8",
     "ts-loader": "^3.1.1",
-    "typescript": "^2.6.1",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "typescript": "^3.3.0-dev.20190101",
     "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "^2.9.4",
+    "why-did-you-update": "^1.0.6"
   },
   "config": {
     "host": "localhost",

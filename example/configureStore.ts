@@ -1,8 +1,8 @@
-import thunk from "redux-thunk";
 import { createArenaStore } from "redux-arena";
-import saga from "./frame/redux/saga";
 import reducer from "./frame/redux/reducer";
+import saga from "./frame/redux/saga";
 import state from "./frame/redux/state";
+import thunk from "redux-thunk";
 
 let middlewares = [thunk];
 

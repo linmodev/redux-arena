@@ -2,6 +2,8 @@ var webpack = require("webpack");
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+
 module.exports = {
   entry: [
     "react-hot-loader/patch",
@@ -19,12 +21,17 @@ module.exports = {
   },
   devtool: "inline-source-map",
   resolve: {
+    plugins: [
+      new TsconfigPathsPlugin({
+        /*configFile: "./path/to/tsconfig.json" */
+      })
+    ],
     extensions: [".ts", ".tsx", ".js", ".js", ".jsx"]
   },
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         loader: "ts-loader"
       }
@@ -38,6 +45,7 @@ module.exports = {
       filename: "index.html",
       base: "/redux-arena"
     }),
+
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin()

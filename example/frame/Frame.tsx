@@ -5,7 +5,7 @@ import actions from "./redux/actions";
 
 import ModuleReUse from "../ModuleReUse";
 import ScopedPage from "../ScopedPage";
-import PassDownState from "../passDownState";
+import PassDownState from "../PassDownStateF";
 import { Props } from "./types";
 
 const linkStyle = {
@@ -23,9 +23,12 @@ class Frame extends React.Component<Props, { page: string }> {
       page: "emptyPage"
     });
   }
-
+  componentWillReceiveProps() {
+    console.log("frame recieve props");
+  }
   render() {
     let { cnt, addCnt, clearCnt } = this.props;
+    console.log("frame render");
     return (
       <div>
         <div>
@@ -68,7 +71,7 @@ class Frame extends React.Component<Props, { page: string }> {
           <div style={{ display: "flex" }}>
             <div style={{ marginLeft: "1rem" }}>total count: {cnt}</div>
             <button onClick={addCnt} style={{ marginLeft: "1rem" }}>
-              Add Total Count
+              Add Total Count----
             </button>
             <button onClick={clearCnt} style={{ marginLeft: "1rem" }}>
               Clear Total Count
@@ -81,7 +84,8 @@ class Frame extends React.Component<Props, { page: string }> {
                 <ScopedPage />
               ) : this.state.page === "passDownStateAndActions" ? (
                 <PassDownState />
-              ) : this.state.page === "moduleReUse" ? (
+              ) : // <div />
+              this.state.page === "moduleReUse" ? (
                 <ModuleReUse />
               ) : null}
             </div>
@@ -100,4 +104,7 @@ function mapStateToProps(state) {
   return { cnt: state.frame.cnt };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Frame);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Frame);
